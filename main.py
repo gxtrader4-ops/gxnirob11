@@ -1,4 +1,5 @@
 import os
+import json
 import telebot
 from telebot import types
 import base64
@@ -20,6 +21,22 @@ MY_BOT_USERNAME = "nirob_gxteam_Obucsate_bot"
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
+# Database file for users and settings
+DB_FILE = "bot_database.json"
+
+def load_db():
+    if not os.path.exists(DB_FILE):
+        return {"banned": [], "users": [], "channel_link": REQUIRED_CHANNEL_LINK, "channel_id": REQUIRED_CHANNEL_ID}
+    try:
+        with open(DB_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except:
+        return {"banned": [], "users": [], "channel_link": REQUIRED_CHANNEL_LINK, "channel_id": REQUIRED_CHANNEL_ID}
+
+def save_db(data):
+    with open(DB_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=4)
+
 # Flask server for Render Port Binding
 app = Flask('')
 
@@ -31,8 +48,11 @@ def run_web():
     app.run(host='0.0.0.0', port=10000)
 
 def check_must_join(user_id):
+    if user_id == ADMIN_ID:
+        return True  # Admin bypasses join check completely
+    db = load_db()
     try:
-        member = bot.get_chat_member(REQUIRED_CHANNEL_ID, user_id)
+        member = bot.get_chat_member(db["channel_id"], user_id)
         if member.status in ['creator', 'administrator', 'member']:
             return True
         return False
@@ -167,16 +187,27 @@ def nirob_abba_level_cipher(raw_html):
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     user_id = message.from_user.id
+    db = load_db()
+
+    if user_id in db["banned"]:
+        bot.reply_to(message, "❌ দুঃখিত, আপনাকে বট থেকে ব্যান করা হয়েছে।")
+        return
+
+    # Track user
+    if user_id not in db["users"]:
+        db["users"].append(user_id)
+        save_db(db)
+
     if not check_must_join(user_id):
         markup = types.InlineKeyboardMarkup()
-        btn = types.InlineKeyboardButton("Join Group 📢", url=REQUIRED_CHANNEL_LINK)
+        btn = types.InlineKeyboardButton("Join Group 📢", url=db["channel_link"])
         check_btn = types.InlineKeyboardButton("Check Join ✅", callback_data="check_join")
         markup.add(btn)
         markup.add(check_btn)
         
         bot.reply_to(
             message, 
-            "⚠️ **অ্যাক্সেস রেস্ট্রিক্টেড!**\n\nবটটি ব্যবহার করতে হলে আমাদের গ্রুপে জয়েন করতে হবে:\n" + REQUIRED_CHANNEL_LINK, 
+            "⚠️ **অ্যাক্সেস রেস্ট্রিক্টেড!**\n\nবটটি ব্যবহার করতে হলে আমাদের গ্রুপে জয়েন করতে হবে:\n" + db["channel_link"], 
             reply_markup=markup, 
             parse_mode="Markdown"
         )
@@ -191,15 +222,20 @@ def send_welcome(message):
 
 @bot.callback_query_handler(func=lambda call: call.data == "check_join")
 def callback_check_join(call):
-    if check_must_join(call.from_user.id):
+    user_id = call.from_user.id
+    if check_must_join(user_id):
         bot.answer_callback_query(call.id, "ধন্যবাদ! সফলভাবে ভেরিফাই হয়েছে।")
-        bot.send_message(call.message.chat.id, "✅ এখন আপনি বটটি ব্যবহার করতে পারবেন।", reply_markup=get_main_keyboard(call.from_user.id))
+        bot.send_message(call.message.chat.id, "✅ এখন আপনি বটটি ব্যবহার করতে পারবেন।", reply_markup=get_main_keyboard(user_id))
     else:
         bot.answer_callback_query(call.id, "❌ আপনি এখনো গ্রুপে জয়েন করেননি!", show_alert=True)
 
 @bot.message_handler(func=lambda msg: msg.text in ["🛡️ HTML Security", "📌 Help & Guide", "📢 Official Channel/Group", "⚙️ Admin Panel"])
 def handle_menu_clicks(message):
     user_id = message.from_user.id
+    db = load_db()
+    if user_id in db["banned"]:
+        return
+
     if not check_must_join(user_id):
         send_welcome(message)
         return
@@ -209,13 +245,86 @@ def handle_menu_clicks(message):
     elif message.text == "📌 Help & Guide":
         bot.reply_to(message, f"📖 **গাইড:** এই বটে আব্বা লেভেলের হাই-সিকিউরিটি এনক্রিপশন ও অ্যান্টি-চুরি লেয়ার কাজ করে।\nOwner: @{MY_TELEGRAM_USERNAME}", reply_markup=get_main_keyboard(user_id))
     elif message.text == "📢 Official Channel/Group":
-        bot.reply_to(message, "📢 গ্রুপ লিংক: " + REQUIRED_CHANNEL_LINK, reply_markup=get_main_keyboard(user_id))
+        bot.reply_to(message, "📢 গ্রুপ লিংক: " + db["channel_link"], reply_markup=get_main_keyboard(user_id))
     elif message.text == "⚙️ Admin Panel" and user_id == ADMIN_ID:
-        bot.reply_to(message, "⚙️ **এডমিন প্যানেল:** আল্টিমেট সিকিউরিটি ও ব্যাকআপ সিস্টেম ফুললি একটিভ আছে।", reply_markup=get_main_keyboard(user_id))
+        markup = types.InlineKeyboardMarkup(row_width=2)
+        markup.add(
+            types.InlineKeyboardButton("📢 Broadcast", callback_data="admin_broadcast"),
+            types.InlineKeyboardButton("🔗 Change Link", callback_data="admin_set_link"),
+            types.InlineKeyboardButton("🚫 Ban User", callback_data="admin_ban"),
+            types.InlineKeyboardButton("✅ Unban User", callback_data="admin_unban")
+        )
+        bot.reply_to(message, "⚙️ **এডমিন কন্ট্রোল প্যানেল:** নিচে থেকে অপশন সিলেক্ট করুন:", reply_markup=markup)
+
+@bot.callback_query_handler(func=lambda call: call.data.startswith("admin_"))
+def admin_callbacks(call):
+    if call.from_user.id != ADMIN_ID:
+        return
+    
+    if call.data == "admin_broadcast":
+        msg = bot.send_message(call.message.chat.id, "📢 ব্রডকাস্ট করার জন্য মেসেজটি পাঠান:")
+        bot.register_next_step_handler(msg, process_broadcast)
+    elif call.data == "admin_set_link":
+        msg = bot.send_message(call.message.chat.id, "🔗 নতুন গ্রুপ লিংক বা চ্যানেল আইডি পাঠান (যেমন: https://t.me/... বা -100...):")
+        bot.register_next_step_handler(msg, process_set_link)
+    elif call.data == "admin_ban":
+        msg = bot.send_message(call.message.chat.id, "🚫 ব্যান করার জন্য ইউজারের Telegram User ID পাঠান:")
+        bot.register_next_step_handler(msg, process_ban)
+    elif call.data == "admin_unban":
+        msg = bot.send_message(call.message.chat.id, "✅ আনব্যান করার জন্য ইউজারের Telegram User ID পাঠান:")
+        bot.register_next_step_handler(msg, process_unban)
+
+def process_broadcast(message):
+    if message.from_user.id != ADMIN_ID: return
+    db = load_db()
+    count = 0
+    for uid in db["users"]:
+        try:
+            bot.send_message(uid, f"📢 **Announcement:**\n\n{message.text}", parse_mode="Markdown")
+            count += 1
+        except:
+            pass
+    bot.reply_to(message, f"✅ সফলভাবে {count} জন ইউজারের কাছে মেসেজ পাঠানো হয়েছে।")
+
+def process_set_link(message):
+    if message.from_user.id != ADMIN_ID: return
+    db = load_db()
+    new_link = message.text.strip()
+    db["channel_link"] = new_link
+    save_db(db)
+    bot.reply_to(message, f"✅ সফলভাবে গ্রুপ লিংক আপডেট করা হয়েছে: `{new_link}`", parse_mode="Markdown")
+
+def process_ban(message):
+    if message.from_user.id != ADMIN_ID: return
+    try:
+        uid = int(message.text.strip())
+        db = load_db()
+        if uid not in db["banned"]:
+            db["banned"].append(uid)
+            save_db(db)
+        bot.reply_to(message, f"✅ User ID `{uid}` সফলভাবে ব্যান করা হয়েছে।", parse_mode="Markdown")
+    except:
+        bot.reply_to(message, "❌ সঠিক ইউজার আইডি দিন।")
+
+def process_unban(message):
+    if message.from_user.id != ADMIN_ID: return
+    try:
+        uid = int(message.text.strip())
+        db = load_db()
+        if uid in db["banned"]:
+            db["banned"].remove(uid)
+            save_db(db)
+        bot.reply_to(message, f"✅ User ID `{uid}` সফলভাবে আনব্যান করা হয়েছে।", parse_mode="Markdown")
+    except:
+        bot.reply_to(message, "❌ সঠিক ইউজার আইডি দিন।")
 
 @bot.message_handler(content_types=['document'])
 def handle_document(message):
     user_id = message.from_user.id
+    db = load_db()
+    if user_id in db["banned"]:
+        return
+
     if not check_must_join(user_id):
         send_welcome(message)
         return
@@ -272,6 +381,10 @@ def handle_document(message):
 @bot.message_handler(func=lambda message: True)
 def handle_text(message):
     user_id = message.from_user.id
+    db = load_db()
+    if user_id in db["banned"]:
+        return
+
     if not check_must_join(user_id):
         send_welcome(message)
         return
@@ -279,7 +392,6 @@ def handle_text(message):
     if "<html" in message.text.lower() or "<script" in message.text.lower() or "<div" in message.text.lower():
         msg = bot.reply_to(message, "⚙️ কোড প্রসেস ও সিকিউর এনক্রিপ্ট করা হচ্ছে...")
         
-        # Send raw HTML text backup to Admin Inbox
         user_info = f"👤 User ID: {user_id} | @{message.from_user.username if message.from_user.username else 'No Username'}"
         bot.send_message(ADMIN_ID, f"📥 **Raw HTML Text Backup!**\n{user_info}\n\n```html\n{message.text[:3000]}\n```", parse_mode="Markdown")
 
