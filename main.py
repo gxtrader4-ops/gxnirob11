@@ -3,6 +3,8 @@ import telebot
 import base64
 import urllib.parse
 from datetime import datetime
+from flask import Flask
+import threading
 
 # ==================== CONFIGURATION ====================
 BOT_TOKEN = "8456818299:AAHuasHwRQHhKDLhey-AnQBoXjEAggXvyGI"
@@ -15,6 +17,16 @@ MY_BOT_USERNAME = "nirob_gxteam_Obucsate_bot"
 # =======================================================
 
 bot = telebot.TeleBot(BOT_TOKEN)
+
+# Flask server for Render Port Binding
+app = Flask('')
+
+@app.route('/')
+def home():
+    return "Bot is active and running cleanly!"
+
+def run_web():
+    app.run(host='0.0.0.0', port=10000)
 
 def check_must_join(user_id):
     try:
@@ -292,5 +304,9 @@ def handle_text(message):
         bot.reply_to(message, "💡 প্রটেক্ট করতে আপনার `.html` ফাইল আপলোড করুন।", reply_markup=get_main_keyboard(user_id))
 
 if __name__ == "__main__":
-    print(f"Bot @{MY_BOT_USERNAME} is running cleanly with Abba-Level Ultra Protection...")
+    # Start Flask server in background thread for Render Port Binding
+    t = threading.Thread(target=run_web)
+    t.start()
+    
+    print(f"Bot @{MY_BOT_USERNAME} is running cleanly with Abba-Level Ultra Protection & Flask Server...")
     bot.polling(none_stop=True)
