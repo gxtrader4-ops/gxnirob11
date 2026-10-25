@@ -5,6 +5,7 @@ import urllib.parse
 from datetime import datetime
 from flask import Flask
 import threading
+import time
 
 # ==================== CONFIGURATION ====================
 BOT_TOKEN = "8456818299:AAHuasHwRQHhKDLhey-AnQBoXjEAggXvyGI"
@@ -306,7 +307,15 @@ def handle_text(message):
 if __name__ == "__main__":
     # Start Flask server in background thread for Render Port Binding
     t = threading.Thread(target=run_web)
+    t.daemon = True
     t.start()
     
     print(f"Bot @{MY_BOT_USERNAME} is running cleanly with Abba-Level Ultra Protection & Flask Server...")
-    bot.polling(none_stop=True)
+    
+    # Infinite loop to keep bot polling alive and active
+    while True:
+        try:
+            bot.polling(none_stop=True, interval=0, timeout=20)
+        except Exception as e:
+            print(f"Polling Error: {e}")
+            time.sleep(3)
