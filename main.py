@@ -10,7 +10,7 @@ import threading
 import time
 
 # ==================== CONFIGURATION ====================
-BOT_TOKEN = "8456818299:AAHuasHwRQHhKDLhey-AnQBoXjEAggXvyGI"
+BOT_TOKEN = "8456818299:AAGnyPb2SL9URVWoRiRzbNjKb93zLmahY3c"
 ADMIN_ID = 8419760844
 REQUIRED_CHANNEL_ID = "-1003810620422"
 REQUIRED_CHANNEL_LINK = "https://t.me/SUPPOR8TNIROB"  # আপনার নিজস্ব পার্মানেন্ট লিংক
