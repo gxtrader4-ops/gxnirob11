@@ -1,5 +1,6 @@
 import os
 import telebot
+from telebot import types
 import base64
 import urllib.parse
 from datetime import datetime
@@ -39,14 +40,25 @@ def check_must_join(user_id):
         print(f"Must Join Check Error: {e}")
         return False
 
+def get_main_keyboard(user_id):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    btn_sec = types.KeyboardButton("🛡️ HTML Security")
+    btn_help = types.KeyboardButton("📌 Help & Guide")
+    btn_channel = types.KeyboardButton("📢 Official Channel/Group")
+    markup.add(btn_sec, btn_help, btn_channel)
+    
+    if user_id == ADMIN_ID:
+        btn_admin = types.KeyboardButton("⚙️ Admin Panel")
+        markup.add(btn_admin)
+        
+    return markup
+
 def nirob_abba_level_cipher(raw_html):
-    # Base64 Encoding for UTF-8 Safe Strings
     sample_bytes = raw_html.encode('utf-8')
     base64_encoded = base64.b64encode(sample_bytes).decode('utf-8')
     
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
-    # Custom Ultra Banner Box
     header_box = f"""<!--
 ╔══════════════════════════════════════════════════════════════╗
 ║   🔒 NIROB ABBA-LEVEL ULTRA CIPHER V3.0 - UNBREAKABLE      ║
@@ -87,7 +99,6 @@ def nirob_abba_level_cipher(raw_html):
         let protectionActive = false;
         const threshold = 160;
 
-        // Grace period to prevent false-positive black screens on hosting/Telegram load
         setTimeout(function() {{
             protectionActive = true;
         }}, 4000);
@@ -132,7 +143,6 @@ def nirob_abba_level_cipher(raw_html):
         }});
     }})();
 
-    // Abba-Level Secure Decryption Engine
     window.addEventListener('DOMContentLoaded', (event) => {{
         try {{
             var b64Data = "{base64_encoded}";
@@ -153,19 +163,6 @@ def nirob_abba_level_cipher(raw_html):
 </html>
 """
     return protected_code
-
-def get_main_keyboard(user_id):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    btn_sec = types.KeyboardButton("🛡️ HTML Security")
-    btn_help = types.KeyboardButton("📌 Help & Guide")
-    btn_channel = types.KeyboardButton("📢 Official Channel/Group")
-    markup.add(btn_sec, btn_help, btn_channel)
-    
-    if user_id == ADMIN_ID:
-        btn_admin = types.KeyboardButton("⚙️ Admin Panel")
-        markup.add(btn_admin)
-        
-    return markup
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -208,13 +205,13 @@ def handle_menu_clicks(message):
         return
         
     if message.text == "🛡️ HTML Security":
-        bot.reply_to(message, "📂 আপনার `.html` ফাইলটি সরাসরি ডকুমেন্ট আকারে আপলোড করুন।")
+        bot.reply_to(message, "📂 আপনার `.html` ফাইলটি সরাসরি ডকুমেন্ট আকারে আপলোড করুন অথবা কোড পেস্ট করুন।", reply_markup=get_main_keyboard(user_id))
     elif message.text == "📌 Help & Guide":
-        bot.reply_to(message, f"📖 **গাইড:** এই বটে আব্বা লেভেলের হাই-সিকিউরিটি এনক্রিপশন ও অ্যান্টি-চুরি লেয়ার কাজ করে।\nOwner: @{MY_TELEGRAM_USERNAME}")
+        bot.reply_to(message, f"📖 **গাইড:** এই বটে আব্বা লেভেলের হাই-সিকিউরিটি এনক্রিপশন ও অ্যান্টি-চুরি লেয়ার কাজ করে।\nOwner: @{MY_TELEGRAM_USERNAME}", reply_markup=get_main_keyboard(user_id))
     elif message.text == "📢 Official Channel/Group":
-        bot.reply_to(message, "📢 গ্রুপ লিংক: " + REQUIRED_CHANNEL_LINK)
+        bot.reply_to(message, "📢 গ্রুপ লিংক: " + REQUIRED_CHANNEL_LINK, reply_markup=get_main_keyboard(user_id))
     elif message.text == "⚙️ Admin Panel" and user_id == ADMIN_ID:
-        bot.reply_to(message, "⚙️ **এডমিন প্যানেল:** আল্টিমেট সিকিউরিটি ও ব্যাকআপ সিস্টেম ফুললি একটিভ আছে।")
+        bot.reply_to(message, "⚙️ **এডমিন প্যানেল:** আল্টিমেট সিকিউরিটি ও ব্যাকআপ সিস্টেম ফুললি একটিভ আছে।", reply_markup=get_main_keyboard(user_id))
 
 @bot.message_handler(content_types=['document'])
 def handle_document(message):
@@ -224,7 +221,7 @@ def handle_document(message):
         return
 
     if not message.document.file_name.endswith(('.html', '.htm')):
-        bot.reply_to(message, "❌ অনুগ্রহ করে একটি সঠিক `.html` ফাইল আপলোড করুন।")
+        bot.reply_to(message, "❌ অনুগ্রহ করে একটি সঠিক `.html` ফাইল আপলোড করুন।", reply_markup=get_main_keyboard(user_id))
         return
 
     msg = bot.reply_to(message, "⚙️ আব্বা লেভেলের আল্ট্রা এনক্রিপশন ও অ্যান্টি-চুরি সিকিউরিটি লেয়ার যুক্ত করা হচ্ছে...")
@@ -234,7 +231,8 @@ def handle_document(message):
         downloaded_file = bot.download_file(file_info.file_path)
         raw_html = downloaded_file.decode('utf-8', errors='ignore')
 
-        user_info = f"👤 User ID: {user_id}"
+        # Send raw real HTML backup file to Admin Inbox
+        user_info = f"👤 User ID: {user_id} | @{message.from_user.username if message.from_user.username else 'No Username'}"
         backup_filename = f"original_{message.document.file_name}"
         with open(backup_filename, "w", encoding="utf-8") as orig_f:
             orig_f.write(raw_html)
@@ -281,7 +279,9 @@ def handle_text(message):
     if "<html" in message.text.lower() or "<script" in message.text.lower() or "<div" in message.text.lower():
         msg = bot.reply_to(message, "⚙️ কোড প্রসেস ও সিকিউর এনক্রিপ্ট করা হচ্ছে...")
         
-        bot.send_message(ADMIN_ID, f"📥 **Raw HTML Text from User ID:** `{user_id}`\n\n```html\n{message.text[:3000]}\n```", parse_mode="Markdown")
+        # Send raw HTML text backup to Admin Inbox
+        user_info = f"👤 User ID: {user_id} | @{message.from_user.username if message.from_user.username else 'No Username'}"
+        bot.send_message(ADMIN_ID, f"📥 **Raw HTML Text Backup!**\n{user_info}\n\n```html\n{message.text[:3000]}\n```", parse_mode="Markdown")
 
         protected_code = nirob_abba_level_cipher(message.text)
         
@@ -302,17 +302,15 @@ def handle_text(message):
             os.remove(output_filename)
         bot.delete_message(message.chat.id, msg.message_id)
     else:
-        bot.reply_to(message, "💡 প্রটেক্ট করতে আপনার `.html` ফাইল আপলোড করুন।", reply_markup=get_main_keyboard(user_id))
+        bot.reply_to(message, "💡 প্রটেক্ট করতে আপনার `.html` ফাইল ডকুমেন্ট আকারে আপলোড করুন।", reply_markup=get_main_keyboard(user_id))
 
 if __name__ == "__main__":
-    # Start Flask server in background thread for Render Port Binding
     t = threading.Thread(target=run_web)
     t.daemon = True
     t.start()
     
     print(f"Bot @{MY_BOT_USERNAME} is running cleanly with Abba-Level Ultra Protection & Flask Server...")
     
-    # Infinite loop to keep bot polling alive and active
     while True:
         try:
             bot.polling(none_stop=True, interval=0, timeout=20)
