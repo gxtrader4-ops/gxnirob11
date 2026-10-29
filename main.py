@@ -50,7 +50,7 @@ app = Flask('')
 
 @app.route('/')
 def home():
-    return "Bot is active and running cleanly!"
+    return "NIROB BOSS GX™ Bot is active and running cleanly!"
 
 def run_web():
     app.run(host='0.0.0.0', port=10000)
@@ -91,7 +91,7 @@ def nirob_abba_level_cipher(raw_html):
      
     header_box = f"""<!--
 ╔══════════════════════════════════════════════════════════════╗
-║  🔒 సైফার: 👿🔥 𝐏𝐨𝐥𝐲𝐦𝐨𝐫𝐩𝐡𝐢𝐜 𝐂𝐡𝐚𝐨𝐬 𝐒𝐭𝐫𝐞𝐚𝐦 (𝐔𝐧𝐛𝐫𝐞𝐚𝐤𝐚𝐛𝐥𝐞)     ║
+║  🔒 সাইফার: 👿🔥 𝐏𝐨𝐥𝐲𝐦𝐨𝐫𝐩𝐡𝐢𝐜 𝐂𝐡𝐚𝐨𝐬 𝐒𝐭𝐫𝐞𝐚𝐦 (𝐔𝐧𝐛𝐫𝐞𝐚𝐤𝐚𝐛𝐥𝐞)     ║
 ║  🚫 প্রোটেকশন: 𝐀𝐧𝐭𝐢-𝐇𝐨𝐨𝐤 + 𝐀𝐧𝐭𝐢-𝐃𝐞𝐛𝐮𝐠𝐠𝐞𝐫 + 𝐂𝐒𝐒/𝐉𝐒 𝐙𝐞𝐫𝐨-𝐋𝐞𝐚𝐤   ║
 ║  🌐 ব্রাউজার রানিং: 𝟏𝟎𝟎% 𝐍𝐚𝐭𝐢𝐯𝐞 𝐄𝐱𝐞𝐜𝐮𝐭𝐢𝐨𝐧                     ║
 ║  ⚡️ সিকিউরিটি: 𝐌𝐢𝐥𝐢𝐭𝐚𝐫𝐲-𝐆𝐫𝐚𝐝𝐞 𝐋𝐨𝐜𝐤                           ║
@@ -115,7 +115,7 @@ def nirob_abba_level_cipher(raw_html):
 <body>
     <div id="loader-box" style="position:fixed;top:0;left:0;width:100%;height:100vh;background:#020202;color:#00ffcc;display:flex;justify-content:center;align-items:center;font-family:monospace;font-size:22px;z-index:999999;flex-direction:column;">
         <div style="margin-bottom:12px;">🔥 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ MILITARY-GRADE SECURE LOADER 🔥</div>
-        <div style="font-size:14px;color:#ff0055;">Unbreakable Polymorphic Chaos Stream Loading...</div>
+        <div style="font-size:14px;color:#ff0055;">Polymorphic Chaos Stream & Zero-Leak Shield Loading...</div>
     </div>
 
     <script>
@@ -134,14 +134,14 @@ def nirob_abba_level_cipher(raw_html):
 
         setTimeout(function() {{
             protectionActive = true;
-        }, 2500);
+        }, 2000);
 
         function triggerConsoleAlert() {{
             if (protectionActive && !devtoolsOpen) {{
                 devtoolsOpen = true;
                 document.documentElement.innerHTML = "<div style='background:#050505;color:#ff0033;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:monospace;font-size:22px;text-align:center;padding:25px;'>👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑<br>🚨 মাদারচোদ! চোর কোথাকার!<br>কোড চুরি করতে আইছোস? তোর গুষ্টির পিণ্ডি চটকাইয়া দিমু!<br>লুইচ্চা পোলারা সোর্স কোড মারার ধান্দা বাদ দে!<br>খানকির পোলা নোংরা পোলা তোর মারে চুদি!<br>👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑<br><br><span style='color:#00ffcc;font-size:18px;'>🔒 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ 𝗢𝗪𝗡𝗘𝗥: @{MY_TELEGRAM_USERNAME}<br>Bot: @{MY_BOT_USERNAME}</span></div>";
                  
-                fetch("https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?chat_id={ADMIN_ID}&text=" + encodeURIComponent("🚨 NIROB BOSS GX ALERT! A thieving bastard tried to inspect/steal code from an unbreakable protected HTML file and got completely busted!"));
+                fetch("https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?chat_id={ADMIN_ID}&text=" + encodeURIComponent("🚨 NIROB BOSS GX ALERT! A thieving bastard tried to inspect/steal code from a military-grade protected HTML file and got completely busted!"));
             }}
         }}
 
@@ -483,7 +483,7 @@ def handle_text(message):
             bot.send_document(
                 message.chat.id, 
                 f, 
-                caption=f"✅ **কোডটি সফলভাবে মিলিটারি-গ্রেড সিকিউরিটি দিয়ে লক করা হয়েছে!**\n\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n💎 **𝐕𝐈𝐏 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 & 𝐎𝐖𝗡𝐄𝐑 𝐈𝐍𝐅𝐎** 💎\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n👤 মালিক ও ডেভেলপার: @{MY_TELEGRAM_USERNAME}\n🤖 বট ইউজারনেম: @{MY_BOT_USERNAME}",
+                caption=f"✅ **কোডটি সফলভাবে মিলিটারি-গ্রেড সিকিউরিটি দিয়ে লক করা হয়েছে!**\n\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n💎 **𝐕𝐈𝐏 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 & 𝐎𝐖𝐍𝗘𝐑 𝐈𝐍𝐅𝐎** 💎\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n👤 মালিক ও ডেভেলপার: @{MY_TELEGRAM_USERNAME}\n🤖 বট ইউজারনেম: @{MY_BOT_USERNAME}",
                 reply_markup=get_main_keyboard(user_id),
                 parse_mode="Markdown"
             )
