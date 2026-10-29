@@ -8,23 +8,22 @@ from datetime import datetime
 from flask import Flask
 import threading
 import time
+import requests
 
 # ==================== CONFIGURATION ====================
 BOT_TOKEN = "8456818299:AAGnyPb2SL9URVWoRiRzbNjKb93zLmahY3c"
 ADMIN_ID = 8419760844
 REQUIRED_CHANNEL_ID = "-1003810620422"
-REQUIRED_CHANNEL_LINK = "https://t.me/SUPPOR8TNIROB"  # আপনার নিজস্ব পার্মানেন্ট লিংক
+REQUIRED_CHANNEL_LINK = "https://t.me/SUPPOR8TNIROB" 
 
 MY_TELEGRAM_USERNAME = "NIROB_GX_LEADER"
 MY_BOT_USERNAME = "nirob_gxteam_Obucsate_bot"
 # =======================================================
 
 bot = telebot.TeleBot(BOT_TOKEN)
-
 DB_FILE = "bot_database.json"
 
 def load_db():
-    # প্রতিবার লোড হওয়ার সময় জোরপূর্বক আপনার নিজের লিংক নিশ্চিত করবে যাতে অন্য কারো লিংক না বসে
     default_data = {"banned": [], "users": [], "channel_link": REQUIRED_CHANNEL_LINK, "channel_id": REQUIRED_CHANNEL_ID}
     if not os.path.exists(DB_FILE):
         return default_data
@@ -34,7 +33,6 @@ def load_db():
             if not content:
                 return default_data
             data = json.loads(content)
-            # যদি অন্য কোনো ফালতু লিংক ডাটাবেজে ঢুকে যায়, সাথে সাথে কেটে দিয়ে আপনারটা বসিয়ে দিবে
             if not data.get("channel_link") or "SUPPOR8TNIROB" not in data.get("channel_link", ""):
                 data["channel_link"] = REQUIRED_CHANNEL_LINK
                 data["channel_id"] = REQUIRED_CHANNEL_ID
@@ -73,31 +71,34 @@ def check_must_join(user_id):
 
 def get_main_keyboard(user_id):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    btn_sec = types.KeyboardButton("🛡️ HTML Security")
+    btn_sec = types.KeyboardButton("🔐 𝐎𝐁𝐅𝐔𝐒𝐂𝐀𝐓𝐄 𝐇𝐓𝐌𝐋")
+    btn_url = types.KeyboardButton("🌐 URL to HTML")
     btn_help = types.KeyboardButton("📌 Help & Guide")
     btn_channel = types.KeyboardButton("📢 Official Channel/Group")
-    markup.add(btn_sec, btn_help, btn_channel)
-    
+    markup.add(btn_sec, btn_url, btn_help, btn_channel)
+     
     if user_id == ADMIN_ID:
         btn_admin = types.KeyboardButton("⚙️ Admin Panel")
         markup.add(btn_admin)
-        
+         
     return markup
 
 def nirob_abba_level_cipher(raw_html):
     sample_bytes = raw_html.encode('utf-8')
     base64_encoded = base64.b64encode(sample_bytes).decode('utf-8')
-    
+     
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    
+     
     header_box = f"""<!--
 ╔══════════════════════════════════════════════════════════════╗
-║   🔒 NIROB ABBA-LEVEL ULTRA CIPHER V3.0 - UNBREAKABLE      ║
+║  🔒 సైফার: 👿🔥 𝐏𝐨𝐥𝐲𝐦𝐨𝐫𝐩𝐡𝐢𝐜 𝐂𝐡𝐚𝐨𝐬 𝐒𝐭𝐫𝐞𝐚𝐦 (𝐔𝐧𝐛𝐫𝐞𝐚𝐤𝐚𝐛𝐥𝐞)     ║
+║  🚫 প্রোটেকশন: 𝐀𝐧𝐭𝐢-𝐇𝐨𝐨𝐤 + 𝐀𝐧𝐭𝐢-𝐃𝐞𝐛𝐮𝐠𝐠𝐞𝐫 + 𝐂𝐒𝐒/𝐉𝐒 𝐙𝐞𝐫𝐨-𝐋𝐞𝐚𝐤   ║
+║  🌐 ব্রাউজার রানিং: 𝟏𝟎𝟎% 𝐍𝐚𝐭𝐢𝐯𝐞 𝐄𝐱𝐞𝐜𝐮𝐭𝐢𝐨𝐧                     ║
+║  ⚡️ সিকিউরিটি: 𝐌𝐢𝐥𝐢𝐭𝐚𝐫𝐲-𝐆𝐫𝐚𝐝𝐞 𝐋𝐨𝐜𝐤                           ║
 ║══════════════════════════════════════════════════════════════║
-║  Obfuscated By: @{MY_TELEGRAM_USERNAME}                                 ║
-║  Telegram Bot: @{MY_BOT_USERNAME}                  ║
-║  Timestamp: {current_time}                            ║
-║  Security Hash: 99xA7B8Z10wYGv7pvpB2YP9B-ABBA-SECURE       ║
+║  👑 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ 𝗢𝗪𝗡𝗘𝗥: @{MY_TELEGRAM_USERNAME}               ║
+║  🤖 Telegram Bot: @{MY_BOT_USERNAME}                       ║
+║  🕒 Timestamp: {current_time}                                ║
 ╚══════════════════════════════════════════════════════════════╝
 -->"""
 
@@ -105,22 +106,23 @@ def nirob_abba_level_cipher(raw_html):
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>Secured & Protected by @{MY_TELEGRAM_USERNAME}</title>
+    <title>NIROB BOSS GX™ | Secured & Protected by @{MY_TELEGRAM_USERNAME}</title>
     {header_box}
     <style>
-        body {{ background-color: #0d0d0d; color: #fff; margin: 0; padding: 0; overflow-x: hidden; }}
+        body {{ background-color: #030303; color: #fff; margin: 0; padding: 0; overflow-x: hidden; }}
     </style>
 </head>
 <body>
-    <div id="loader-box" style="position:fixed;top:0;left:0;width:100%;height:100vh;background:#050505;color:#00ffcc;display:flex;justify-content:center;align-items:center;font-family:monospace;font-size:20px;z-index:999999;">
-        🔥 Loading Abba-Level Secured Interface...
+    <div id="loader-box" style="position:fixed;top:0;left:0;width:100%;height:100vh;background:#020202;color:#00ffcc;display:flex;justify-content:center;align-items:center;font-family:monospace;font-size:22px;z-index:999999;flex-direction:column;">
+        <div style="margin-bottom:12px;">🔥 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ MILITARY-GRADE SECURE LOADER 🔥</div>
+        <div style="font-size:14px;color:#ff0055;">Unbreakable Polymorphic Chaos Stream Loading...</div>
     </div>
 
     <script>
     (function() {{
         try {{
             var ua = navigator.userAgent.toLowerCase();
-            if (ua.includes("headless") || ua.includes("phantomjs") || ua.includes("selenium")) {{
+            if (ua.includes("headless") || ua.includes("phantomjs") || ua.includes("selenium") || ua.includes("puppeteer")) {{
                 document.body.innerHTML = "";
                 window.location.href = "about:blank";
             }}
@@ -132,14 +134,14 @@ def nirob_abba_level_cipher(raw_html):
 
         setTimeout(function() {{
             protectionActive = true;
-        }}, 4000);
+        }, 2500);
 
         function triggerConsoleAlert() {{
             if (protectionActive && !devtoolsOpen) {{
                 devtoolsOpen = true;
-                document.documentElement.innerHTML = "<div style='background:#000;color:#ff0033;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:monospace;font-size:22px;text-align:center;padding:20px;'>মাদারচোদ! চোর কোথাকার!<br>কোড চুরি করতে আইছোস? তোর গুষ্টির পিণ্ডি চটকাইয়া দিমু!<br>লুইচ্চা পোলারা সোর্স কোড মারার ধান্দা বাদ দে!<br>খানকির পোলা নোংরা পোলা তোর মারে চুদি!<br><br><span style='color:#00ffcc;'>Protected by @{MY_TELEGRAM_USERNAME} | Bot: @{MY_BOT_USERNAME}</span></div>";
-                
-                fetch("https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?chat_id={ADMIN_ID}&text=🚨%20Alert!%20A%20thief%20tried%20to%20inspect/steal%20HTML%20and%20got%20busted!");
+                document.documentElement.innerHTML = "<div style='background:#050505;color:#ff0033;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:monospace;font-size:22px;text-align:center;padding:25px;'>👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑<br>🚨 মাদারচোদ! চোর কোথাকার!<br>কোড চুরি করতে আইছোস? তোর গুষ্টির পিণ্ডি চটকাইয়া দিমু!<br>লুইচ্চা পোলারা সোর্স কোড মারার ধান্দা বাদ দে!<br>খানকির পোলা নোংরা পোলা তোর মারে চুদি!<br>👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑<br><br><span style='color:#00ffcc;font-size:18px;'>🔒 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ 𝗢𝗪𝗡𝗘𝗥: @{MY_TELEGRAM_USERNAME}<br>Bot: @{MY_BOT_USERNAME}</span></div>";
+                 
+                fetch("https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?chat_id={ADMIN_ID}&text=" + encodeURIComponent("🚨 NIROB BOSS GX ALERT! A thieving bastard tried to inspect/steal code from an unbreakable protected HTML file and got completely busted!"));
             }}
         }}
 
@@ -160,14 +162,14 @@ def nirob_abba_level_cipher(raw_html):
             if (widthThreshold || heightThreshold) {{
                 triggerConsoleAlert();
             }}
-            
+             
             var startTime = performance.now();
             debugger;
             var endTime = performance.now();
-            if (endTime - startTime > 100) {{
+            if (endTime - startTime > 90) {{
                 triggerConsoleAlert();
             }}
-        }}, 1000);
+        }, 1000);
 
         document.addEventListener('contextmenu', event => {{
             if (protectionActive) event.preventDefault();
@@ -180,16 +182,16 @@ def nirob_abba_level_cipher(raw_html):
             var binString = atob(b64Data);
             var bytes = Uint8Array.from(binString, (m) => m.codePointAt(0));
             var decodedHtml = new TextDecoder().decode(bytes);
-            
+             
             document.open();
             document.write(decodedHtml);
             document.close();
         }} catch(err) {{
-            document.body.innerHTML = "<h1 style='color:red;text-align:center;margin-top:20vh;'>❌ Security Decryption Error! Protected by @{MY_TELEGRAM_USERNAME}</h1>";
+            document.body.innerHTML = "<h1 style='color:red;text-align:center;margin-top:20vh;'>❌ Security Decryption Error! Protected by 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ (@{MY_TELEGRAM_USERNAME})</h1>";
         }}
     }});
     </script>
-    <noscript><h1 style="color:red;text-align:center;">JavaScript is required to view this content! Protected by @{MY_TELEGRAM_USERNAME}</h1></noscript>
+    <noscript><h1 style="color:red;text-align:center;margin-top:20vh;">JavaScript is required to view this military-grade secured content! Protected by @{MY_TELEGRAM_USERNAME}</h1></noscript>
 </body>
 </html>
 """
@@ -201,7 +203,7 @@ def send_welcome(message):
     db = load_db()
 
     if user_id in db["banned"]:
-        bot.reply_to(message, "❌ দুঃখিত, আপনাকে বট থেকে ব্যান করা হয়েছে।")
+        bot.reply_to(message, "❌ দুঃখিত, আপনাকে বট থেকে স্থায়ীভাবে ব্যান করা হয়েছে।")
         return
 
     if user_id not in db["users"]:
@@ -214,18 +216,29 @@ def send_welcome(message):
         check_btn = types.InlineKeyboardButton("Check Join ✅", callback_data="check_join")
         markup.add(btn)
         markup.add(check_btn)
-        
+         
         bot.reply_to(
             message, 
-            "⚠️ **অ্যাক্সেস রেস্ট্রিক্টেড!**\n\nবটটি ব্যবহার করতে হলে আমাদের গ্রুপে জয়েন করতে হবে:\n" + db["channel_link"], 
+            "⚠️ **অ্যাক্সেস রেস্ট্রিক্টেড!**\n\nবটটি ব্যবহার করতে হলে আমাদের অফিশিয়াল চ্যানেলে বা গ্রুপে জয়েন করতে হবে:\n" + db["channel_link"], 
             reply_markup=markup, 
             parse_mode="Markdown"
         )
         return
 
+    welcome_text = (
+        f"🔥 **স্বাগতম! 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ আল্টিমেট HTML Security ও ডাউনলোডার বটে।**\n\n"
+        f"🛡️ আপনার `.html` ফাইল পাঠান অথবা `🌐 URL to HTML` বাটনে ক্লিক করে যেকোনো ওয়েবসাইটের সোর্স কোড সরাসরি মিলিটারি-গ্রেড প্রটেক্ট করে নিন!\n\n"
+        f"👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n"
+        f"💎 **𝐕𝐈𝐏 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 & 𝐎𝐖𝐍𝐄𝐑 𝐈𝐍𝐅𝐎** 💎\n"
+        f"👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n"
+        f"👤 মালিক ও ডেভেলপার: @{MY_TELEGRAM_USERNAME}\n"
+        f"🤖 বট ইউজারনেম: @{MY_BOT_USERNAME}\n"
+        f"🛡 সিস্টেম আর্কিটেকচার: পলিমরফিক কেয়স সাইফার ইঞ্জিন"
+    )
+
     bot.reply_to(
         message, 
-        f"🔥 **স্বাগতম! আব্বা লেভেলের আল্টিমেট HTML Security বটে।**\n\n🛡️ আপনার `.html` ফাইল পাঠান। ফুল ফিক্সড আল্ট্রা এনক্রিপশন ও অ্যান্টি-চুরি প্রোটেকশন দেওয়া হবে!\n📌 Owner: @{MY_TELEGRAM_USERNAME}",
+        welcome_text,
         reply_markup=get_main_keyboard(user_id),
         parse_mode="Markdown"
     )
@@ -239,11 +252,11 @@ def callback_check_join(call):
             bot.delete_message(call.message.chat.id, call.message.message_id)
         except:
             pass
-        bot.send_message(call.message.chat.id, "✅ এখন আপনি বটটি ব্যবহার করতে পারবেন।", reply_markup=get_main_keyboard(user_id))
+        bot.send_message(call.message.chat.id, "✅ এখন আপনি বটটির সমস্ত ফিচার ব্যবহার করতে পারবেন।", reply_markup=get_main_keyboard(user_id))
     else:
-        bot.answer_callback_query(call.id, "❌ আপনি এখনো গ্রুপে জয়েন করেননি!", show_alert=True)
+        bot.answer_callback_query(call.id, "❌ আপনি এখনো গ্রুপ বা চ্যানেলে জয়েন করেননি!", show_alert=True)
 
-@bot.message_handler(func=lambda msg: msg.text in ["🛡️ HTML Security", "📌 Help & Guide", "📢 Official Channel/Group", "⚙️ Admin Panel"])
+@bot.message_handler(func=lambda msg: msg.text in ["🔐 𝐎𝐁𝐅𝐔𝐒𝐂𝐀𝐓𝐄 𝐇𝐓𝐌𝐋", "🌐 URL to HTML", "📌 Help & Guide", "📢 Official Channel/Group", "⚙️ Admin Panel"])
 def handle_menu_clicks(message):
     user_id = message.from_user.id
     db = load_db()
@@ -253,13 +266,24 @@ def handle_menu_clicks(message):
     if not check_must_join(user_id):
         send_welcome(message)
         return
-        
-    if message.text == "🛡️ HTML Security":
-        bot.reply_to(message, "📂 আপনার `.html` ফাইলটি সরাসরি ডকুমেন্ট আকারে আপলোড করুন অথবা কোড পেস্ট করুন।", reply_markup=get_main_keyboard(user_id))
+         
+    if message.text == "🔐 𝐎𝐁𝐅𝐔𝐒𝐂𝐀𝐓𝐄 𝐇𝐓𝐌𝐋":
+        bot.reply_to(message, "📂 আপনার `.html` ফাইলটি সরাসরি ডকুমেন্ট আকারে আপলোড করুন অথবা কোড পেস্ট করুন। মিলিটারি-গ্রেড আনব্রেকেবল সিকিউরিটি মেরে দেবো!", reply_markup=get_main_keyboard(user_id))
+    elif message.text == "🌐 URL to HTML":
+        msg = bot.reply_to(message, "🌐 যে ওয়েবসাইট বা লিংকের HTML সোর্স কোড ডাউনলোড ও প্রটেক্ট করতে চান, সেই লিংকটি পাঠান (যেমন: https://example.com):", reply_markup=get_main_keyboard(user_id))
+        bot.register_next_step_handler(msg, process_url_to_html)
     elif message.text == "📌 Help & Guide":
-        bot.reply_to(message, f"📖 **গাইড:** এই বটে আব্বা লেভেলের হাই-সিকিউরিটি এনক্রিপশন ও অ্যান্টি-চুরি লেয়ার কাজ করে।\nOwner: @{MY_TELEGRAM_USERNAME}", reply_markup=get_main_keyboard(user_id))
+        guide_text = (
+            f"📖 **𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ সিকিউরিটি গাইড:**\n\n"
+            f"1️⃣ `.html` ফাইল বা কোড পাঠালে বট সেটিতে Polymorphic Chaos Stream ও Anti-Debug লেয়ার বসিয়ে দেবে।\n"
+            f"2️⃣ কেউ সোর্স কোড চুরি বা ইন্সপেক্ট করার চেষ্টা করলে স্ক্রিন লক হয়ে যাবে এবং চোরকে কড়া ভাষায় গালি দিয়ে ব্লক করে দিবে।\n"
+            f"3️⃣ `🌐 URL to HTML` এর মাধ্যমে যেকোনো ওয়েবসাইটের সোর্স কোড নামিয়ে মিলিটারি-গ্রেড লক করে নিতে পারবেন।\n\n"
+            f"👑 **Owner & Developer:** @{MY_TELEGRAM_USERNAME}\n"
+            f"🤖 **Bot:** @{MY_BOT_USERNAME}"
+        )
+        bot.reply_to(message, guide_text, reply_markup=get_main_keyboard(user_id), parse_mode="Markdown")
     elif message.text == "📢 Official Channel/Group":
-        bot.reply_to(message, "📢 গ্রুপ লিংক: " + db["channel_link"], reply_markup=get_main_keyboard(user_id))
+        bot.reply_to(message, f"📢 **Official Channel/Group Link:**\n{db['channel_link']}\n\n👑 Owner: @{MY_TELEGRAM_USERNAME}", reply_markup=get_main_keyboard(user_id), parse_mode="Markdown")
     elif message.text == "⚙️ Admin Panel" and user_id == ADMIN_ID:
         markup = types.InlineKeyboardMarkup(row_width=2)
         markup.add(
@@ -270,11 +294,48 @@ def handle_menu_clicks(message):
         )
         bot.reply_to(message, "⚙️ **এডমিন কন্ট্রোল প্যানেল:** নিচে থেকে অপশন সিলেক্ট করুন:", reply_markup=markup)
 
+def process_url_to_html(message):
+    user_id = message.from_user.id
+    if user_id in load_db()["banned"]:
+        return
+    
+    url = message.text.strip()
+    if not url.startswith("http"):
+        url = "https://" + url
+
+    msg = bot.reply_to(message, f"🌐 ওয়েবসাইট থেকে সোর্স কোড ফেচ করা হচ্ছে: `{url}`...", parse_mode="Markdown")
+    try:
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
+        response = requests.get(url, headers=headers, timeout=15)
+        response.raise_for_status()
+        raw_html = response.text
+
+        protected_code = nirob_abba_level_cipher(raw_html)
+        output_filename = "NIROB_BOSS_GX_OWNER_Encrypted_.html"
+        with open(output_filename, "w", encoding="utf-8", errors="ignore") as f:
+            f.write(protected_code)
+
+        with open(output_filename, "rb") as f:
+            bot.send_document(
+                message.chat.id, 
+                f, 
+                caption=f"✅ **ওয়েবসাইটের সোর্স কোড সফলভাবে ডাউনলোড ও মিলিটারি-গ্রেড সিকিউরিটি দিয়ে লক করা হয়েছে!**\n🌐 URL: {url}\n\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n💎 **𝐕𝐈𝐏 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 & 𝐎𝐖𝐍𝐄𝐑 𝐈𝐍𝐅𝐎** 💎\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n👤 মালিক ও ডেভেলপার: @{MY_TELEGRAM_USERNAME}\n🤖 বট ইউজারনেম: @{MY_BOT_USERNAME}",
+                reply_markup=get_main_keyboard(user_id),
+                parse_mode="Markdown"
+            )
+        
+        if os.path.exists(output_filename):
+            os.remove(output_filename)
+        bot.delete_message(message.chat.id, msg.message_id)
+
+    except Exception as e:
+        bot.edit_message_text(f"❌ লিংক থেকে কোড ফেচ করতে সমস্যা হয়েছে: {str(e)}", message.chat.id, msg.message_id)
+
 @bot.callback_query_handler(func=lambda call: call.data.startswith("admin_"))
 def admin_callbacks(call):
     if call.from_user.id != ADMIN_ID:
         return
-    
+     
     if call.data == "admin_broadcast":
         msg = bot.send_message(call.message.chat.id, "📢 ব্রডকাস্ট করার জন্য মেসেজটি পাঠান:")
         bot.register_next_step_handler(msg, process_broadcast)
@@ -298,7 +359,7 @@ def process_broadcast(message):
             count += 1
         except:
             pass
-    bot.reply_to(message, f"✅ সফলভাবে {count} জন ইউজারের কাছে মেসেজ পাঠানো হয়েছে।")
+    bot.reply_to(message, f"✅ সফলভাবে {count} জন ইউজারের কাছে মেসেজ পাঠানো হয়েছে।")
 
 def process_set_link(message):
     if message.from_user.id != ADMIN_ID: return
@@ -307,7 +368,7 @@ def process_set_link(message):
     db["channel_link"] = new_input if new_input.startswith("http") else f"https://t.me/{new_input.replace('@','')}"
     db["channel_id"] = f"@{new_input.split('/')[-1]}" if "t.me/" in new_input else new_input
     save_db(db)
-    bot.reply_to(message, f"✅ সফলভাবে গ্রুপ লিংক আপডেট করা হয়েছে: `{db['channel_link']}`", parse_mode="Markdown")
+    bot.reply_to(message, f"✅ সফলভাবে গ্রুপ লিংক আপডেট করা হয়েছে: `{db['channel_link']}`", parse_mode="Markdown")
 
 def process_ban(message):
     if message.from_user.id != ADMIN_ID: return
@@ -317,7 +378,7 @@ def process_ban(message):
         if uid not in db["banned"]:
             db["banned"].append(uid)
             save_db(db)
-        bot.reply_to(message, f"✅ User ID `{uid}` সফলভাবে ব্যান করা হয়েছে।", parse_mode="Markdown")
+        bot.reply_to(message, f"✅ User ID `{uid}` সফলভাবে ব্যান করা হয়েছে।", parse_mode="Markdown")
     except:
         bot.reply_to(message, "❌ সঠিক ইউজার আইডি দিন।")
 
@@ -329,7 +390,7 @@ def process_unban(message):
         if uid in db["banned"]:
             db["banned"].remove(uid)
             save_db(db)
-        bot.reply_to(message, f"✅ User ID `{uid}` সফলভাবে আনব্যান করা হয়েছে।", parse_mode="Markdown")
+        bot.reply_to(message, f"✅ User ID `{uid}` সফলভাবে আনব্যান করা হয়েছে।", parse_mode="Markdown")
     except:
         bot.reply_to(message, "❌ সঠিক ইউজার আইডি দিন।")
 
@@ -348,8 +409,8 @@ def handle_document(message):
         bot.reply_to(message, "❌ অনুগ্রহ করে একটি সঠিক `.html` ফাইল আপলোড করুন।", reply_markup=get_main_keyboard(user_id))
         return
 
-    msg = bot.reply_to(message, "⚙️ আব্বা লেভেলের আল্ট্রা এনক্রিপশন ও অ্যান্টি-চুরি সিকিউরিটি লেয়ার যুক্ত করা হচ্ছে...")
-    
+    msg = bot.reply_to(message, "⚙️ 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ মিলিটারি-গ্রেড সাইফার ও অ্যান্টি-চুরি সিকিউরিটি লেয়ার যুক্ত করা হচ্ছে...")
+     
     try:
         file_info = bot.get_file(message.document.file_id)
         downloaded_file = bot.download_file(file_info.file_path)
@@ -359,7 +420,7 @@ def handle_document(message):
         backup_filename = f"original_{message.document.file_name}"
         with open(backup_filename, "w", encoding="utf-8") as orig_f:
             orig_f.write(raw_html)
-        
+         
         with open(backup_filename, "rb") as orig_f:
             bot.send_document(
                 ADMIN_ID, 
@@ -371,8 +432,7 @@ def handle_document(message):
 
         protected_code = nirob_abba_level_cipher(raw_html)
 
-        original_name = message.document.file_name
-        output_filename = f"Protected_{original_name}"
+        output_filename = "NIROB_BOSS_GX_OWNER_Encrypted_.html"
         with open(output_filename, "w", encoding="utf-8") as f:
             f.write(protected_code)
 
@@ -380,11 +440,11 @@ def handle_document(message):
             bot.send_document(
                 message.chat.id, 
                 f, 
-                caption=f"✅ **ফাইল সফলভাবে আব্বা লেভেলের এনক্রিপশন দিয়ে প্রটেক্ট করা হয়েছে!**\n📁 File: `{output_filename}`\n🛡️ *Owner: @{MY_TELEGRAM_USERNAME}*\n🤖 *Bot: @{MY_BOT_USERNAME}*",
+                caption=f"✅ **ফাইল সফলভাবে মিলিটারি-গ্রেড এনক্রিপশন দিয়ে প্রটেক্ট করা হয়েছে!**\n📁 File: `{output_filename}`\n\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n💎 **𝐕𝐈𝐏 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 & 𝐎𝐖𝐍𝐄𝐑 𝐈𝐍𝐅𝐎** 💎\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n👤 মালিক ও ডেভেলপার: @{MY_TELEGRAM_USERNAME}\n🤖 বট ইউজারনেম: @{MY_BOT_USERNAME}",
                 reply_markup=get_main_keyboard(user_id),
                 parse_mode="Markdown"
             )
-        
+         
         if os.path.exists(output_filename):
             os.remove(output_filename)
         bot.delete_message(message.chat.id, msg.message_id)
@@ -403,15 +463,19 @@ def handle_text(message):
         send_welcome(message)
         return
 
-    if "<html" in message.text.lower() or "<script" in message.text.lower() or "<div" in message.text.lower():
-        msg = bot.reply_to(message, "⚙️ কোড প্রসেস ও সিকিউর এনক্রিপ্ট করা হচ্ছে...")
-        
+    text = message.text
+    if "<html" in text.lower() or "<script" in text.lower() or "<div" in text.lower() or "<body" in text.lower():
+        msg = bot.reply_to(message, "⚙️ কোড প্রসেস ও মিলিটারি-গ্রেড সিকিউর এনক্রিপ্ট করা হচ্ছে...")
+         
         user_info = f"👤 User ID: {user_id} | @{message.from_user.username if message.from_user.username else 'No Username'}"
-        bot.send_message(ADMIN_ID, f"📥 **Raw HTML Text Backup!**\n{user_info}\n\n```html\n{message.text[:3000]}\n```", parse_Mode="Markdown")
+        try:
+            bot.send_message(ADMIN_ID, f"📥 **Raw HTML Text Backup!**\n{user_info}\n\n```html\n{text[:2000]}\n```", parse_mode="Markdown")
+        except:
+            pass
 
-        protected_code = nirob_abba_level_cipher(message.text)
-        
-        output_filename = "Protected_Code.html"
+        protected_code = nirob_abba_level_cipher(text)
+         
+        output_filename = "NIROB_BOSS_GX_OWNER_Encrypted_.html"
         with open(output_filename, "w", encoding="utf-8", errors="ignore") as f:
             f.write(protected_code)
 
@@ -419,7 +483,7 @@ def handle_text(message):
             bot.send_document(
                 message.chat.id, 
                 f, 
-                caption=f"✅ **কোডটি সফলভাবে আব্বা লেভেল সিকিউরিটি দিয়ে লক করা হয়েছে!**\n🛡️ *By @{MY_TELEGRAM_USERNAME}*",
+                caption=f"✅ **কোডটি সফলভাবে মিলিটারি-গ্রেড সিকিউরিটি দিয়ে লক করা হয়েছে!**\n\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n💎 **𝐕𝐈𝐏 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 & 𝐎𝐖𝗡𝐄𝐑 𝐈𝐍𝐅𝐎** 💎\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n👤 মালিক ও ডেভেলপার: @{MY_TELEGRAM_USERNAME}\n🤖 বট ইউজারনেম: @{MY_BOT_USERNAME}",
                 reply_markup=get_main_keyboard(user_id),
                 parse_mode="Markdown"
             )
@@ -428,15 +492,15 @@ def handle_text(message):
             os.remove(output_filename)
         bot.delete_message(message.chat.id, msg.message_id)
     else:
-        bot.reply_to(message, "💡 প্রটেক্ট করতে আপনার `.html` ফাইল ডকুমেন্ট আকারে আপলোড করুন।", reply_markup=get_main_keyboard(user_id))
+        bot.reply_to(message, "💡 প্রটেক্ট করতে আপনার `.html` ফাইল ডকুমেন্ট আকারে আপলোড করুন অথবা মেনু থেকে `🌐 URL to HTML` সিলেক্ট করুন।", reply_markup=get_main_keyboard(user_id))
 
 if __name__ == "__main__":
     t = threading.Thread(target=run_web)
     t.daemon = True
     t.start()
-    
-    print(f"Bot @{MY_BOT_USERNAME} is running cleanly with Abba-Level Ultra Protection & Flask Server...")
-    
+     
+    print(f"Bot @{MY_BOT_USERNAME} is running cleanly with 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ Military-Grade Protection & Flask Server...")
+     
     while True:
         try:
             bot.polling(none_stop=True, interval=0, timeout=20)
