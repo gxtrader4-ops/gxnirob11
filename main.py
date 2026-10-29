@@ -12,7 +12,7 @@ import requests
 import re
 
 # ==================== CONFIGURATION ====================
-BOT_TOKEN = "8456818299:AAGnyPb2SL9URVWoRiRzbNjKb93zLmahY3c"
+BOT_TOKEN = "8456818299:AAGo5tNeTF5ouf-uGodEQObBp6AAMLvHjmM"
 ADMIN_ID = 8419760844
 REQUIRED_CHANNEL_ID = "-1003810620422"
 REQUIRED_CHANNEL_LINK = "https://t.me/SUPPOR8TNIROB" 
@@ -356,7 +356,7 @@ def admin_callbacks(call):
         return
      
     if call.data == "admin_broadcast":
-        msg = bot.send_message(call.message.chat.id, "📢 ব্রডকাস্ট করার জন্য মেসেজটি পাঠান:")
+        msg = bot.send_message(call.message.chat.id, "📢 সমস্ত ইউজারের কাছে পাঠানোর জন্য ব্রডকাস্ট মেসেজটি পাঠান:")
         bot.register_next_step_handler(msg, process_broadcast)
     elif call.data == "admin_set_link":
         msg = bot.send_message(call.message.chat.id, "🔗 নতুন গ্রুপ লিংক বা চ্যানেল আইডি পাঠান (যেমন: https://t.me/... বা -100...):")
@@ -374,11 +374,11 @@ def process_broadcast(message):
     count = 0
     for uid in db["users"]:
         try:
-            bot.send_message(uid, f"📢 **অ্যানাউন্সমেন্ট:**\n\n{message.text}")
+            bot.send_message(uid, f"📢 **অফিসিয়াল নোটিশ / অ্যানাউন্সমেন্ট:**\n\n{message.text}")
             count += 1
         except:
             pass
-    bot.reply_to(message, f"✅ সফলভাবে {count} জন ইউজারের কাছে মেসেজ পাঠানো হয়েছে।")
+    bot.reply_to(message, f"✅ সফলভাবে {count} জন ইউজারের কাছে ব্রডকাস্ট মেসেজ পাঠানো হয়েছে।")
 
 def process_set_link(message):
     if message.from_user.id != ADMIN_ID: return
