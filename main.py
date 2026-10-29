@@ -89,27 +89,27 @@ def nirob_abba_level_cipher(raw_html):
      
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
      
-    header_box = f"""<!--
-╔══════════════════════════════════════════════════════════════╗
-║  🔒 সাইফার: 👿🔥 𝐏𝐨𝐥𝐲𝐦𝐨𝐫𝐩𝐡𝐢𝐜 𝐂𝐡𝐚𝐨𝐬 𝐒𝐭𝐫𝐞𝐚𝐦 (𝐔𝐧𝐛𝐫𝐞𝐚𝐤𝐚𝐛𝐥𝐞)     ║
-║  🚫 প্রোটেকশন: 𝐀𝐧𝐭𝐢-𝐇𝐨𝐨𝐤 + 𝐀𝐧𝐭𝐢-𝐃𝐞𝐛𝐮𝐠𝐠𝐞𝐫 + 𝐂𝐒𝐒/𝐉𝐒 𝐙𝐞𝐫𝐨-𝐋𝐞𝐚𝐤   ║
-║  🌐 ব্রাউজার রানিং: 𝟏𝟎𝟎% 𝐍𝐚𝐭𝐢𝐯𝐞 𝐄𝐱𝐞𝐜𝐮𝐭𝐢𝐨𝐧                     ║
-║  ⚡️ সিকিউরিটি: 𝐌𝐢𝐥𝐢𝐭𝐚𝐫𝐲-𝐆𝐫𝐚𝐝𝐞 𝐋𝐨𝐜𝐤                           ║
-║══════════════════════════════════════════════════════════════║
-║  👑 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ 𝗢𝗪𝗡𝗘𝗥: @{MY_TELEGRAM_USERNAME}               ║
-║  🤖 Telegram Bot: @{MY_BOT_USERNAME}                       ║
-║  🕒 Timestamp: {current_time}                                ║
-╚══════════════════════════════════════════════════════════════╝
--->"""
+    header_box = "<!--\n" + \
+                 "╔══════════════════════════════════════════════════════════════╗\n" + \
+                 "║  🔒 সাইফার: 👿🔥 𝐏𝐨𝐥𝐲𝐦𝐨𝐫𝐩𝐡𝐢𝐜 𝐂𝐡𝐚𝐨𝐬 𝐒𝐭𝐫𝐞𝐚𝐦 (𝐔𝐧𝐛𝐫𝐞𝐚𝐤𝐚𝐛𝐥𝐞)     ║\n" + \
+                 "║  🚫 প্রোটেকশন: 𝐀𝐧𝐭𝐢-𝐇𝐨𝐨𝐤 + 𝐀𝐧𝐭𝐢-𝐃𝐞𝐛𝐮𝐠𝐠𝐞𝐫 + 𝐂𝐒𝐒/𝐉𝐒 𝐙𝐞𝐫𝐨-𝐋𝐞𝐚𝐤   ║\n" + \
+                 "║  🌐 ব্রাউজার রানিং: 𝟏𝟎𝟎% 𝐍𝐚𝐭𝐢𝐯𝐞 𝐄𝐱𝐞𝐜𝐮𝐭𝐢𝐨𝐧                     ║\n" + \
+                 "║  ⚡️ সিকিউরিটি: 𝐌𝐢𝐥𝐢𝐭𝐚𝐫𝐲-𝐆𝐫𝐚𝐝𝐞 𝐋𝐨𝐜𝐤                           ║\n" + \
+                 "║══════════════════════════════════════════════════════════════║\n" + \
+                 f"║  👑 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ 𝗢𝗪𝗡𝗘𝗥: @{MY_TELEGRAM_USERNAME}               ║\n" + \
+                 f"║  🤖 Telegram Bot: @{MY_BOT_USERNAME}                       ║\n" + \
+                 f"║  🕒 Timestamp: {current_time}                                ║\n" + \
+                 "╚══════════════════════════════════════════════════════════════╝\n" + \
+                 "-->"
 
-    protected_code = f"""<!DOCTYPE html>
+    protected_code = """<!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>NIROB BOSS GX™ | Secured & Protected by @{MY_TELEGRAM_USERNAME}</title>
-    {header_box}
+    <title>NIROB BOSS GX™ | Secured & Protected</title>
+    """ + header_box + """
     <style>
-        body {{ background-color: #030303; color: #fff; margin: 0; padding: 0; overflow-x: hidden; }}
+        body { background-color: #030303; color: #fff; margin: 0; padding: 0; overflow-x: hidden; }
     </style>
 </head>
 <body>
@@ -119,66 +119,66 @@ def nirob_abba_level_cipher(raw_html):
     </div>
 
     <script>
-    (function() {{
-        try {{
+    (function() {
+        try {
             var ua = navigator.userAgent.toLowerCase();
-            if (ua.includes("headless") || ua.includes("phantomjs") || ua.includes("selenium") || ua.includes("puppeteer")) {{
+            if (ua.includes("headless") || ua.includes("phantomjs") || ua.includes("selenium") || ua.includes("puppeteer")) {
                 document.body.innerHTML = "";
                 window.location.href = "about:blank";
-            }}
-        }} catch(e) {{}}
+            }
+        } catch(e) {}
 
         let devtoolsOpen = false;
         let protectionActive = false;
         const threshold = 160;
 
-        setTimeout(function() {{
+        setTimeout(function() {
             protectionActive = true;
         }, 2000);
 
-        function triggerConsoleAlert() {{
-            if (protectionActive && !devtoolsOpen) {{
+        function triggerConsoleAlert() {
+            if (protectionActive && !devtoolsOpen) {
                 devtoolsOpen = true;
-                document.documentElement.innerHTML = "<div style='background:#050505;color:#ff0033;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:monospace;font-size:22px;text-align:center;padding:25px;'>👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑<br>🚨 মাদারচোদ! চোর কোথাকার!<br>কোড চুরি করতে আইছোস? তোর গুষ্টির পিণ্ডি চটকাইয়া দিমু!<br>লুইচ্চা পোলারা সোর্স কোড মারার ধান্দা বাদ দে!<br>খানকির পোলা নোংরা পোলা তোর মারে চুদি!<br>👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑<br><br><span style='color:#00ffcc;font-size:18px;'>🔒 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ 𝗢𝗪𝗡𝗘𝗥: @{MY_TELEGRAM_USERNAME}<br>Bot: @{MY_BOT_USERNAME}</span></div>";
+                document.documentElement.innerHTML = "<div style='background:#050505;color:#ff0033;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:monospace;font-size:22px;text-align:center;padding:25px;'>👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑<br>🚨 মাদারচোদ! চোর কোথাকার!<br>কোড চুরি করতে আইছোস? তোর গুষ্টির পিণ্ডি চটকাইয়া দিমু!<br>লুইচ্চা পোলারা সোর্স কোড মারার ধান্দা বাদ দে!<br>খানকির পোলা নোংরা পোলা তোর মারে চুদি!<br>👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑<br><br><span style='color:#00ffcc;font-size:18px;'>🔒 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ 𝗢OWNER: @""" + MY_TELEGRAM_USERNAME + """<br>Bot: @""" + MY_BOT_USERNAME + """</span></div>";
                  
-                fetch("https://api.telegram.org/bot{BOT_TOKEN}/sendMessage?chat_id={ADMIN_ID}&text=" + encodeURIComponent("🚨 NIROB BOSS GX ALERT! A thieving bastard tried to inspect/steal code from a military-grade protected HTML file and got completely busted!"));
-            }}
-        }}
+                fetch("https://api.telegram.org/bot""" + BOT_TOKEN + """/sendMessage?chat_id=""" + str(ADMIN_ID) + """&text=" + encodeURIComponent("🚨 NIROB BOSS GX ALERT! A thieving bastard tried to inspect/steal code from a military-grade protected HTML file and got completely busted!"));
+            }
+        }
 
-        document.addEventListener('keydown', function(e) {{
+        document.addEventListener('keydown', function(e) {
             if (protectionActive && (e.keyCode === 123 || 
                 (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) || 
-                (e.ctrlKey && e.keyCode === 85))) {{
+                (e.ctrlKey && e.keyCode === 85))) {
                 e.preventDefault();
                 triggerConsoleAlert();
                 return false;
-            }}
-        }});
+            }
+        });
 
-        setInterval(function() {{
+        setInterval(function() {
             if (!protectionActive) return;
             const widthThreshold = window.outerWidth - window.innerWidth > threshold;
             const heightThreshold = window.outerHeight - window.innerHeight > threshold;
-            if (widthThreshold || heightThreshold) {{
+            if (widthThreshold || heightThreshold) {
                 triggerConsoleAlert();
-            }}
+            }
              
             var startTime = performance.now();
             debugger;
             var endTime = performance.now();
-            if (endTime - startTime > 90) {{
+            if (endTime - startTime > 90) {
                 triggerConsoleAlert();
-            }}
+            }
         }, 1000);
 
-        document.addEventListener('contextmenu', event => {{
+        document.addEventListener('contextmenu', event => {
             if (protectionActive) event.preventDefault();
-        }});
-    }})();
+        });
+    })();
 
-    window.addEventListener('DOMContentLoaded', (event) => {{
-        try {{
-            var b64Data = "{base64_encoded}";
+    window.addEventListener('DOMContentLoaded', (event) => {
+        try {
+            var b64Data = '""" + base64_encoded + """';
             var binString = atob(b64Data);
             var bytes = Uint8Array.from(binString, (m) => m.codePointAt(0));
             var decodedHtml = new TextDecoder().decode(bytes);
@@ -186,12 +186,12 @@ def nirob_abba_level_cipher(raw_html):
             document.open();
             document.write(decodedHtml);
             document.close();
-        }} catch(err) {{
-            document.body.innerHTML = "<h1 style='color:red;text-align:center;margin-top:20vh;'>❌ Security Decryption Error! Protected by 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ (@{MY_TELEGRAM_USERNAME})</h1>";
-        }}
-    }});
+        } catch(err) {
+            document.body.innerHTML = "<h1 style='color:red;text-align:center;margin-top:20vh;'>❌ Security Decryption Error! Protected by 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ (@""" + MY_TELEGRAM_USERNAME + """)</h1>";
+        }
+    });
     </script>
-    <noscript><h1 style="color:red;text-align:center;margin-top:20vh;">JavaScript is required to view this military-grade secured content! Protected by @{MY_TELEGRAM_USERNAME}</h1></noscript>
+    <noscript><h1 style="color:red;text-align:center;margin-top:20vh;">JavaScript is required to view this military-grade secured content! Protected by @""" + MY_TELEGRAM_USERNAME + """</h1></noscript>
 </body>
 </html>
 """
@@ -319,7 +319,7 @@ def process_url_to_html(message):
             bot.send_document(
                 message.chat.id, 
                 f, 
-                caption=f"✅ **ওয়েবসাইটের সোর্স কোড সফলভাবে ডাউনলোড ও মিলিটারি-গ্রেড সিকিউরিটি দিয়ে লক করা হয়েছে!**\n🌐 URL: {url}\n\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n💎 **𝐕𝐈𝐏 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 & 𝐎𝐖𝐍𝐄𝐑 𝐈𝐍𝐅𝐎** 💎\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n👤 মালিক ও ডেভেলপার: @{MY_TELEGRAM_USERNAME}\n🤖 বট ইউজারনেম: @{MY_BOT_USERNAME}",
+                caption=f"✅ **ওয়েবসাইটের সোর্স কোড সফলভাবে ডাউনলোড ও মিলিটারি-গ্রেড সিকিউরিটি দিয়ে লক করা হয়েছে!**\n🌐 URL: {url}\n\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n💎 **𝐕𝐈𝐏 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 & 𝐎𝐖𝐍𝙴𝐑 𝐈𝐍𝐅𝐎** 💎\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n👤 মালিক ও ডেভেলপার: @{MY_TELEGRAM_USERNAME}\n🤖 বট ইউজারনেম: @{MY_BOT_USERNAME}",
                 reply_markup=get_main_keyboard(user_id),
                 parse_mode="Markdown"
             )
