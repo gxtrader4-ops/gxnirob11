@@ -9,6 +9,7 @@ from flask import Flask
 import threading
 import time
 import requests
+import re
 
 # ==================== CONFIGURATION ====================
 BOT_TOKEN = "8456818299:AAGnyPb2SL9URVWoRiRzbNjKb93zLmahY3c"
@@ -84,7 +85,14 @@ def get_main_keyboard(user_id):
          
     return markup
 
+def extract_title(raw_html):
+    match = re.search(r'<title>(.*?)</title>', raw_html, re.IGNORECASE)
+    if match:
+        return match.group(1)
+    return "NIROB BOSS GX™ | Secured & Protected"
+
 def nirob_abba_level_cipher(raw_html):
+    original_title = extract_title(raw_html)
     sample_bytes = raw_html.encode('utf-8')
     base64_encoded = base64.b64encode(sample_bytes).decode('utf-8')
      
@@ -95,7 +103,7 @@ def nirob_abba_level_cipher(raw_html):
                  "║  🔒 সাইফার: 👿🔥 𝐏𝐨𝐥𝐲𝐦𝐨𝐫𝐩𝐡𝐢𝐜 𝐂𝐡𝐚𝐨𝐬 𝐒𝐭𝐫𝐞𝐚𝐦 (𝐔𝐧𝐛𝐫𝐞𝐚𝐤𝐚𝐛𝐥𝐞)     ║\n" + \
                  "║  🚫 প্রোটেকশন: 𝐀𝐧𝐭𝐢-𝐇𝐨𝐨𝐤 + 𝐀𝐧𝐭𝐢-𝐃𝐞𝐛𝐮𝐠𝐠𝐞𝐫 + 𝐂𝐒𝐒/𝐉𝐒 𝐙𝐞𝐫𝐨-𝐋𝐞𝐚𝐤   ║\n" + \
                  "║  🌐 ব্রাউজার রানিং: 𝟏𝟎𝟎% 𝐍𝐚𝐭𝐢𝐯𝐞 𝐄𝐱𝐞𝐜𝐮𝐭𝐢𝐨𝐧                     ║\n" + \
-                 "║  ⚡️ সিকিউরিটি: 𝐌𝐢𝐥𝐢𝐭𝐚𝐫𝐲-𝐆𝐫𝐚𝐝𝐞 𝐋𝐨𝐜𝐤                           ║\n" + \
+                 "║  ⚡️ সিকিউরিটি: 𝐌𝐢𝐥𝐢𝐭𝐚𝐫𝐲-𝐆𝐫𝐚𝐝𝐞 𝐋𝐨𝐜𝐤 👿🔥🥵💀❌               ║\n" + \
                  "║══════════════════════════════════════════════════════════════║\n" + \
                  f"║  👑 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ 𝗢𝗪𝗡𝗘𝗥: @{MY_TELEGRAM_USERNAME}               ║\n" + \
                  f"║  🤖 Telegram Bot: @{MY_BOT_USERNAME}                       ║\n" + \
@@ -107,7 +115,7 @@ def nirob_abba_level_cipher(raw_html):
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <title>NIROB BOSS GX™ | Secured & Protected</title>
+    <title>""" + original_title + """</title>
     """ + header_box + """
     <style>
         body { background-color: #030303; color: #fff; margin: 0; padding: 0; overflow-x: hidden; }
@@ -115,8 +123,8 @@ def nirob_abba_level_cipher(raw_html):
 </head>
 <body>
     <div id="loader-box" style="position:fixed;top:0;left:0;width:100%;height:100vh;background:#020202;color:#00ffcc;display:flex;justify-content:center;align-items:center;font-family:monospace;font-size:22px;z-index:999999;flex-direction:column;">
-        <div style="margin-bottom:12px;">🔥 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ মিলিট্রি-গ্রেড সিকিউর লোডার 🔥</div>
-        <div style="font-size:14px;color:#ff0055;">পলিমরফিক কেয়স সাইফার ও জিরো-লিক শিল্ড লোড হচ্ছে...</div>
+        <div style="margin-bottom:12px;">👿🔥🥵💀❌ 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ মিলিট্রি-গ্রেড সিকিউর লোডার 👿🔥🥵💀❌</div>
+        <div style="font-size:14px;color:#ff0055;">পলিমরফিক কেয়স সাইফার ও মাল্টি-লেয়ার ডিফেন্স লোড হচ্ছে...</div>
     </div>
 
     <script>
@@ -140,9 +148,9 @@ def nirob_abba_level_cipher(raw_html):
         function triggerConsoleAlert() {
             if (protectionActive && !devtoolsOpen) {
                 devtoolsOpen = true;
-                document.documentElement.innerHTML = "<div style='background:#050505;color:#ff0033;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:monospace;font-size:22px;text-align:center;padding:25px;'>👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑<br>🚨 মাদারচোদ! চোর কোথাকার!<br>কোড চুরি করতে আইছোস? তোর গুষ্টির পিণ্ডি চটকাইয়া দিমু!<br>লুইচ্চা পোলারা সোর্স কোড মারার ধান্দা বাদ দে!<br>খানকির পোলা নোংরা পোলা তোর মারে চুদি!<br>👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑<br><br><span style='color:#00ffcc;font-size:18px;'>🔒 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ 𝗢𝗪𝗡𝗘𝗥: @""" + MY_TELEGRAM_USERNAME + """<br>Bot: @""" + MY_BOT_USERNAME + """</span></div>";
+                document.documentElement.innerHTML = "<div style='background:#050505;color:#ff0033;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;font-family:monospace;font-size:22px;text-align:center;padding:25px;'>👿🔥🥵💀❌ ━━━━━━━━━━━━━━━━━━━━━━━━━ 👿🔥🥵💀❌<br>🚨 মাদারচোদ! চোর কোথাকার! 👿🔥🥵💀❌<br>কোড চুরি করতে আইছোস? তোর গুষ্টির পিণ্ডি চটকাইয়া দিমু! 💀❌<br>লুইচ্চা পোলারা সোর্স কোড মারার ধান্দা বাদ দে! 🔥🥵<br>খানকির পোলা নোংরা পোলা তোর মারে চুদি! 👿🔥🥵💀❌<br>👿🔥🥵💀❌ ━━━━━━━━━━━━━━━━━━━━━━━━━ 👿🔥🥵💀❌<br><br><span style='color:#00ffcc;font-size:18px;'>🔒 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ 𝗢𝗪𝗡𝗘𝗥: @""" + MY_TELEGRAM_USERNAME + """<br>Bot: @""" + MY_BOT_USERNAME + """</span></div>";
                  
-                fetch("https://api.telegram.org/bot""" + BOT_TOKEN + """/sendMessage?chat_id=""" + str(ADMIN_ID) + """&text=" + encodeURIComponent("🚨 NIROB BOSS GX ALERT! কোনো চোরা হ্যাকার প্রটেক্টেড ফাইল থেকে কোড চুরি করার চেষ্টা করে ধরা খেয়েছে!"));
+                fetch("https://api.telegram.org/bot""" + BOT_TOKEN + """/sendMessage?chat_id=""" + str(ADMIN_ID) + """&text=" + encodeURIComponent("👿🔥🥵💀❌ ALERT! কোনো চোরা হ্যাকার এফ-১২ বা ইন্সপেক্ট করে কোড চুরি করার সময় ধরা খেয়েছে এবং তাকে ভয়ঙ্করভাবে সাইজ করা হয়েছে!"));
             }
         }
 
@@ -188,11 +196,11 @@ def nirob_abba_level_cipher(raw_html):
             document.write(decodedHtml);
             document.close();
         } catch(err) {
-            document.body.innerHTML = "<h1 style='color:red;text-align:center;margin-top:20vh;'>❌ সিকিউরিটি ডিক্রিপশন এরর! সুরক্ষিত করেছেন 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ (@""" + MY_TELEGRAM_USERNAME + """)</h1>";
+            document.body.innerHTML = "<h1 style='color:red;text-align:center;margin-top:20vh;'>👿🔥❌ সিকিউরিটি ডিক্রিপশন এরর! সুরক্ষিত করেছেন 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ (@""" + MY_TELEGRAM_USERNAME + """)</h1>";
         }
     });
     </script>
-    <noscript><h1 style="color:red;text-align:center;margin-top:20vh;">এই কন্টেন্ট দেখার জন্য জাভাস্ক্রিপ্ট চালু থাকতে হবে! সুরক্ষিত করেছেন @""" + MY_TELEGRAM_USERNAME + """</h1></noscript>
+    <noscript><h1 style="color:red;text-align:center;margin-top:20vh;">👿🔥❌ এই কন্টেন্ট দেখার জন্য জাভাস্ক্রিপ্ট চালু থাকতে হবে! সুরক্ষিত করেছেন @""" + MY_TELEGRAM_USERNAME + """</h1></noscript>
 </body>
 </html>
 """
@@ -227,16 +235,16 @@ def send_welcome(message):
 
     welcome_text = (
         f"👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n"
-        f"  🛡️ **আনব্রেকেবল ইনক্রিপশন (𝗡𝗜𝗥𝗢𝗕 ULTRA V2)**\n"
+        f"  🛡️ **আনব্রেকেবল ইনক্রিপশন (𝗡𝗜𝗥𝗢𝗕 ULTRA V2)** 👿🔥🥵💀❌\n"
         f"👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n\n"
         f"📁 আপনার `.html` বা `.htm` ফাইলটি এখানে সেন্ড করুন:\n\n"
         f"🛡️ **প্রোটেকশন ফিচারসমূহ:**\n"
-        f"- 🔒 ডায়নামিক পলিমরফিক কেয়স সাইফার\n"
-        f"- 🛑 Anti-Hook & Anti-Debug Barrier (ডিকোড অসম্ভব)\n"
-        f"- 👿 মাল্টি-লেয়ার রিয়েল টাইম এক্সিকিউশন\n"
-        f"- 🚫 F12, Inspect Element, View Source ও রাইট ক্লিক সম্পূর্ণ ধ্বংস\n"
-        f"- ⚡️ জিরো-লিক মেমোরি ডিকোডার ও কাস্টম অ্যান্টি-থেফট প্রটেকশন\n"
-        f"- 🌐 ব্রাউজারে ১০০% স্মুথ ও নেটিভ এক্সিকিউশন\n\n"
+        f"- 🔒 ডায়নামিক পলিমরফিক কেয়স সাইফার 👿🔥\n"
+        f"- 🛑 Anti-Hook & Anti-Debug Barrier (ডিকোড অসম্ভব) ❌\n"
+        f"- 👿 মাল্টি-লেয়ার রিয়েল টাইম এক্সিকিউশন 💀\n"
+        f"- 🚫 F12, Inspect Element, View Source ও রাইট ক্লিক সম্পূর্ণ ধ্বংস 🥵\n"
+        f"- ⚡️ জিরো-লিক মেমোরি ডিকোডার ও কাস্টম অ্যান্টি-থেফট প্রটেকশন ❌\n"
+        f"- 🌐 ব্রাউজারে ১০০% স্মুথ ও নেটিভ এক্সিকিউশন 👿\n\n"
         f"💎 **মালিক ও ডেভেলপার:** @{MY_TELEGRAM_USERNAME}\n"
         f"🤖 **বট ইউজারনেম:** @{MY_BOT_USERNAME}"
     )
@@ -272,16 +280,16 @@ def handle_menu_clicks(message):
         return
          
     if message.text == "🔐 𝐎𝐁𝐅𝐔𝐒𝐂𝐀𝐓𝐄 𝐇𝐓𝐌𝐋":
-        bot.reply_to(message, "📂 আপনার `.html` ফাইলটি সরাসরি ডকুমেন্ট আকারে আপলোড করুন অথবা কোড পেস্ট করুন। মিলিটারি-গ্রেড আনব্রেকেবল সিকিউরিটি মেরে দেবো!", reply_markup=get_main_keyboard(user_id))
+        bot.reply_to(message, "📂 আপনার `.html` ফাইলটি সরাসরি ডকুমেন্ট আকারে আপলোড করুন অথবা কোড পেস্ট করুন। মিলিটারি-গ্রেড আনব্রেকেবল সিকিউরিটি মেরে দেবো! 👿🔥🥵💀❌", reply_markup=get_main_keyboard(user_id))
     elif message.text == "🌐 URL to HTML":
-        msg = bot.reply_to(message, "🌐 যে ওয়েবসাইট বা লিংকের HTML সোর্স কোড ডাউনলোড ও প্রটেক্ট করতে চান, সেই লিংকটি পাঠান (যেমন: https://example.com):", reply_markup=get_main_keyboard(user_id))
-        bot.register_next_step_handler(msg, process_url_to_html)
+        msg = bot.reply_to(message, "🌐 যে ওয়েবসাইট বা লিংকের আসল HTML সোর্স কোড ডাউনলোড করতে চান, সেই লিংকটি পাঠান (যেমন: https://example.com):", reply_markup=get_main_keyboard(user_id))
+        bot.register_next_step_handler(msg, process_url_to_pure_html)
     elif message.text == "📌 সাহায্য ও গাইড":
         guide_text = (
             f"📖 **𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ সিকিউরিটি গাইড:**\n\n"
             f"1️⃣ `.html` ফাইল বা কোড পাঠালে বট সেটিতে Polymorphic Chaos Stream ও Anti-Debug লেয়ার বসিয়ে দেবে।\n"
-            f"2️⃣ কেউ সোর্স কোড চুরি বা ইন্সপেক্ট করার চেষ্টা করলে স্ক্রিন লক হয়ে যাবে এবং চোরকে কড়া ভাষায় গালি দিয়ে ব্লক করে দিবে।\n"
-            f"3️⃣ `🌐 URL to HTML` এর মাধ্যমে যেকোনো ওয়েবসাইটের সোর্স কোড নামিয়ে মিলিটারি-গ্রেড লক করে নিতে পারবেন।\n\n"
+            f"2️⃣ কেউ সোর্স কোড চুরি বা ইন্সপেক্ট করার চেষ্টা করলে স্ক্রিন লক হয়ে যাবে এবং চোরকে কড়া ভাষায় ভয়ঙ্কর গালি দিয়ে ব্লক করে দিবে 👿🔥.\n"
+            f"3️⃣ `🌐 URL to HTML` এর মাধ্যমে যেকোনো ওয়েবসাইটের আসল সোর্স কোড সরাসরি নামিয়ে নিতে পারবেন কোনো ঝামেলা ছাড়াই।\n\n"
             f"👑 **Owner & Developer:** @{MY_TELEGRAM_USERNAME}\n"
             f"🤖 **Bot:** @{MY_BOT_USERNAME}"
         )
@@ -291,10 +299,10 @@ def handle_menu_clicks(message):
     elif message.text == "👑 ডেভেলপার যোগাযোগ":
         dev_text = (
             f"👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n"
-            f"💎 **𝐕𝐈𝐏 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 & 𝐎𝐖𝐍𝐄𝐑 𝐈𝐍𝐅𝐎** 💎\n"
+            f"💎 **𝐕𝐈𝐏 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 & 𝐎𝐖𝐍𝙴𝐑 𝐈𝐍𝐅𝐎** 💎\n"
             f"👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n"
             f"👤 মালিক ও ডেভেলপার: @{MY_TELEGRAM_USERNAME}\n"
-            f"💬 যেকোনো সমস্যা বা প্রজেক্টের জন্য যোগাযোগ করুন সরাসরি ইনবক্সে!"
+            f"💬 যেকোনো সমস্যা বা প্রজেক্টের জন্য যোগাযোগ করুন সরাসরি ইনবক্সে! 👿🔥"
         )
         bot.reply_to(message, dev_text, reply_markup=get_main_keyboard(user_id))
     elif message.text == "⚙️ এডমিন প্যানেল" and user_id == ADMIN_ID:
@@ -307,7 +315,7 @@ def handle_menu_clicks(message):
         )
         bot.reply_to(message, "⚙️ **এডমিন কন্ট্রোল প্যানেল:** নিচে থেকে অপশন সিলেক্ট করুন:", reply_markup=markup)
 
-def process_url_to_html(message):
+def process_url_to_pure_html(message):
     user_id = message.from_user.id
     if user_id in load_db()["banned"]:
         return
@@ -316,23 +324,22 @@ def process_url_to_html(message):
     if not url.startswith("http"):
         url = "https://" + url
 
-    msg = bot.reply_to(message, f"🌐 ওয়েবসাইট থেকে সোর্স কোড ফেচ করা হচ্ছে: `{url}`...", parse_mode="Markdown")
+    msg = bot.reply_to(message, f"🌐 ওয়েবসাইট থেকে আসল সোর্স কোড ফেচ করা হচ্ছে: `{url}`...", parse_mode="Markdown")
     try:
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
         response = requests.get(url, headers=headers, timeout=15)
         response.raise_for_status()
         raw_html = response.text
 
-        protected_code = nirob_abba_level_cipher(raw_html)
-        output_filename = "NIROB_BOSS_GX_OWNER_Encrypted_.html"
+        output_filename = "Extracted_Website_Source.html"
         with open(output_filename, "w", encoding="utf-8", errors="ignore") as f:
-            f.write(protected_code)
+            f.write(raw_html)
 
         with open(output_filename, "rb") as f:
             bot.send_document(
                 message.chat.id, 
                 f, 
-                caption=f"✅ **ওয়েবসাইটের সোর্স কোড সফলভাবে ডাউনলোড ও মিলিটারি-গ্রেড সিকিউরিটি দিয়ে লক করা হয়েছে!**\n🌐 URL: {url}\n\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n💎 **𝐕𝐈𝐏 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 & 𝐎𝐖𝐍𝐄𝐑 𝐈𝐍𝐅𝐎** 💎\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n👤 মালিক ও ডেভেলপার: @{MY_TELEGRAM_USERNAME}\n🤖 বট ইউজারনেম: @{MY_BOT_USERNAME}",
+                caption=f"✅ **ওয়েবসাইটের আসল সোর্স কোড সফলভাবে ডাউনলোড করা হয়েছে!**\n🌐 URL: {url}\n\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n💎 **𝐕𝐈𝐏 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 & 𝐎𝐖𝐍𝗘𝐑 𝐈𝐍𝐅𝐎** 💎\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n👤 মালিক ও ডেভেলপার: @{MY_TELEGRAM_USERNAME}\n🤖 বট ইউজারনেম: @{MY_BOT_USERNAME}",
                 reply_markup=get_main_keyboard(user_id)
             )
         
@@ -421,7 +428,7 @@ def handle_document(message):
         bot.reply_to(message, "❌ অনুগ্রহ করে একটি সঠিক `.html` ফাইল আপলোড করুন।", reply_markup=get_main_keyboard(user_id))
         return
 
-    msg = bot.reply_to(message, "⚙️ 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ মিলিটারি-গ্রেড সাইফার ও অ্যান্টি-চুরি সিকিউরিটি লেয়ার যুক্ত করা হচ্ছে...")
+    msg = bot.reply_to(message, "⚙️ 𝗡𝗜𝗥𝗢𝗕 𝗕𝗢𝗦𝗦 𝗚𝗫™ মিলিটারি-গ্রেড সাইফার ও অ্যান্টি-চুরি সিকিউরিটি লেয়ার যুক্ত করা হচ্ছে 👿🔥...")
      
     try:
         file_info = bot.get_file(message.document.file_id)
@@ -452,7 +459,7 @@ def handle_document(message):
             bot.send_document(
                 message.chat.id, 
                 f, 
-                caption=f"✅ **ফাইল সফলভাবে মিলিটারি-গ্রেড এনক্রিপশন দিয়ে প্রটেক্ট করা হয়েছে!**\n📁 File: `{output_filename}`\n\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n💎 **𝐕𝐈𝐏 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 & 𝐎𝐖𝐍𝐄𝐑 𝐈𝐍𝐅𝐎** 💎\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n👤 মালিক ও ডেভেলপার: @{MY_TELEGRAM_USERNAME}\n🤖 বট ইউজারনেম: @{MY_BOT_USERNAME}",
+                caption=f"✅ **ফাইল সফলভাবে মিলিটারি-গ্রেড এনক্রিপশন দিয়ে প্রটেক্ট করা হয়েছে!** 👿🔥\n📁 File: `{output_filename}`\n\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n💎 **𝐕𝐈𝐏 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 & 𝐎𝐖𝐍𝗘𝐑 𝐈𝐍𝐅𝐎** 💎\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n👤 মালিক ও ডেভেলপার: @{MY_TELEGRAM_USERNAME}\n🤖 বট ইউজারনেম: @{MY_BOT_USERNAME}",
                 reply_markup=get_main_keyboard(user_id)
             )
          
@@ -476,7 +483,7 @@ def handle_text(message):
 
     text = message.text
     if "<html" in text.lower() or "<script" in text.lower() or "<div" in text.lower() or "<body" in text.lower():
-        msg = bot.reply_to(message, "⚙️ কোড প্রসেস ও মিলিটারি-গ্রেড সিকিউর এনক্রিপ্ট করা হচ্ছে...")
+        msg = bot.reply_to(message, "⚙️ কোড প্রসেস ও মিলিটারি-গ্রেড সিকিউর এনক্রিপ্ট করা হচ্ছে 👿🔥...")
          
         user_info = f"👤 User ID: {user_id} | @{message.from_user.username if message.from_user.username else 'No Username'}"
         try:
@@ -494,7 +501,7 @@ def handle_text(message):
             bot.send_document(
                 message.chat.id, 
                 f, 
-                caption=f"✅ **কোডটি সফলভাবে মিলিটারি-গ্রেড সিকিউরিটি দিয়ে লক করা হয়েছে!**\n\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n💎 **𝐕𝐈𝐏 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 & 𝐎𝐖𝐍𝗘𝐑 𝐈𝐍𝐅𝐎** 💎\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n👤 মালিক ও ডেভেলপার: @{MY_TELEGRAM_USERNAME}\n🤖 বট ইউজারনেম: @{MY_BOT_USERNAME}",
+                caption=f"✅ **কোডটি সফলভাবে মিলিটারি-গ্রেড সিকিউরিটি দিয়ে লক করা হয়েছে!** 👿🔥\n\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n💎 **𝐕𝐈𝐏 𝐃𝐄𝐕𝐄𝐋𝐎𝐏𝐄𝐑 & 𝐎𝐖𝐍𝗘𝐑 𝐈𝐍𝐅𝐎** 💎\n👑 ━━━━━━━━━━━━━━━━━━━━━━━━━ 👑\n👤 মালিক ও ডেভেলপার: @{MY_TELEGRAM_USERNAME}\n🤖 বট ইউজারনেম: @{MY_BOT_USERNAME}",
                 reply_markup=get_main_keyboard(user_id)
             )
 
